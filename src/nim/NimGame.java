@@ -2,7 +2,7 @@ package nim;
 
 import java.util.Scanner;
 
-public class NimGame implements Runnable {
+public class NimGame {
 
 	private int initialNumMatchsticks;
 	private GameType gameType;
@@ -14,8 +14,7 @@ public class NimGame implements Runnable {
 		console = new Scanner(System.in);
 	}
 	
-	@Override
-	public void run() {
+	public void start() {
 		setGameType();
 		playGame();
 	}
@@ -40,11 +39,32 @@ public class NimGame implements Runnable {
 		int userInput = 0;
 		
 		System.out.println("To return to the previous menu, enter -1 at any time");
+
+		if (gameType == GameType.FairGo) {
+			System.out.print("Do you want to go first? [Y|N]: ");
+			
+			console = new Scanner(System.in);
+			String playFirst = console.next();
+			
+			while (!playFirst.equalsIgnoreCase("Y") && !playFirst.equalsIgnoreCase("N")) {
+				System.out.println("Error: Please enter either Y or N");
+				System.out.print("Do you want to go first? [Y|N]: ");
+				playFirst = console.next();
+			}
+			
+			playersTurn = (playFirst.equalsIgnoreCase("Y")) ? true : false;
+		} else {
+			playersTurn = (gameType == GameType.MissionImpossible) ? false: true;
+		}
+		
+		console = new Scanner(System.in);
 		
 		//TODO: Implement game
 		System.out.println("*** Playing Game ***");
 		while (userInput != -1) {
-			System.out.println("*** Playing Game ***");
+			System.out.println("It is " + ((playersTurn) ? "your" : "my") + " turn");
+			playersTurn = !(playersTurn);
+			
 			userInput = console.nextInt();
 		}
 		
