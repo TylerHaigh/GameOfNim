@@ -27,8 +27,8 @@ public class NimInterface {
 	private void updateMatchsticks() {
 		
 		String message = "Please enter the " +
-				((initialMatchsticks == -1) ? "initial" : "") + 
-				" number of matchsticks on the table: ";
+				((initialMatchsticks == -1) ? "initial " : "") + 
+				"number of matchsticks on the table: ";
 		
 		System.out.print(message);
 		int numSticks = console.nextInt();
