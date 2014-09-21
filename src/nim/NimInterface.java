@@ -82,5 +82,7 @@ public class NimInterface {
 	private void playNim() {
 		//TODO: Implement Nim
 		System.out.println("*** Play NIM ***");
+		NimGame game = new NimGame(initialMatchsticks);
+		game.start();
 	}
 }
