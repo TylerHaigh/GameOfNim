@@ -20,8 +20,26 @@ public class NimInterface {
 	}
 	
 	private void displayRules() {
-		//TODO: Add rules
-		System.out.println("*** DISPLAY RULES ***");
+		System.out.println("Theses are the rules for the NIM game:\n");
+		
+		System.out.println("There are two players, A and B.\n");
+		
+		System.out.println("There is a pile of matchstiks on the table.\n");
+		
+		System.out.println("Player A starts, taking some matchsticks; he/she" +
+				"must take at least one on the table.\n");
+		
+		System.out.println("Player B then takes some matchsticks; he/she " +
+				"must take at lease one, but cannot take more than double the " +
+				"number of matchsticks player A took; obviously player B cannot" + 
+				"take more than the number of the matchsticks left on the table.\n");
+		
+		System.out.println("In general, a player can take any number of " +
+				"matchsticks between 1 and double the numer that the previous " +
+				"player took, but obviously no more than the number of " +
+				"matchsticks left on the table.\n");
+		
+		System.out.println("Player to take the last matchstick wins.");
 	}
 	
 	private void updateMatchsticks() {
@@ -44,7 +62,7 @@ public class NimInterface {
 	
 	private void displayMainMenu() {
 		int userOption = -1;
-		while (userOption != 5) {
+		while (userOption != 6) {
 			
 			displayMainMenuOptions();
 			userOption = console.nextInt();
@@ -54,7 +72,8 @@ public class NimInterface {
 				case 2 : labelNimGraph(); break;
 				case 3 : playNim(); break;
 				case 4 : updateMatchsticks(); break;
-				case 5 : /*Do Nothing*/ break;
+				case 5 : displayRules(); break;
+				case 6 : /*Do Nothing*/ break;
 				default : System.out.println("Error: Input is out of bounds");
 			}
 		}
@@ -66,7 +85,8 @@ public class NimInterface {
 		System.out.println("\t[2] Label the graph nodes winnong/losing");
 		System.out.println("\t[3] Play NIM");
 		System.out.println("\t[4] Change the initial number of matchsticks on the table");
-		System.out.println("\t[5] Exit");
+		System.out.println("\t[5] Display Help");
+		System.out.println("\t[6] Exit");
 	}
 	
 	private void constructNimGraph() {
