@@ -85,5 +85,10 @@ public class NimGame {
 			return rand.nextInt(upperBound);
 		}
 	}
+	
+	private boolean validMove(int numSticksToRemove) {
+		int upperBound = Math.min(lastNumRemoved * 2, numSticksLeft);
+		return numSticksToRemove <= upperBound;
+	}
 
 }
