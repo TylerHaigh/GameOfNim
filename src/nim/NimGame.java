@@ -1,16 +1,21 @@
 package nim;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class NimGame {
 
 	private int initialNumMatchsticks;
+	private int numSticksLeft;
+	private int lastNumRemoved;
+	
 	private GameType gameType;
 	private Scanner console;
 	private boolean playersTurn;
 	
 	public NimGame(int initialNumMatchsticks) {
 		this.initialNumMatchsticks = initialNumMatchsticks;
+		this.numSticksLeft = initialNumMatchsticks;
 		console = new Scanner(System.in);
 	}
 	
@@ -68,6 +73,17 @@ public class NimGame {
 			userInput = console.nextInt();
 		}
 		
+	}
+	
+	private int getComputerMove() {
+		Random rand = new Random();
+		
+		if (numSticksLeft == initialNumMatchsticks) {
+			return rand.nextInt(initialNumMatchsticks);
+		} else {
+			int upperBound = Math.min(lastNumRemoved * 2, numSticksLeft);
+			return rand.nextInt(upperBound);
+		}
 	}
 
 }
