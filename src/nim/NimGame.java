@@ -104,6 +104,15 @@ public class NimGame {
 	private int getComputerMove() {
 		Random rand = new Random();
 		
+		//TODO: Base computers decision on the game type
+		if (gameType == GameType.MissionImpossible) {
+			//Send player to losing position
+		} else if (gameType == GameType.YouWin) {
+			//Send player to winning position
+		} else {
+			//Play fair?
+		}
+		
 		if (numSticksLeft == initialNumMatchsticks) {
 			return rand.nextInt(initialNumMatchsticks);
 		} else {
