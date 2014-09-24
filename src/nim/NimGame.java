@@ -41,8 +41,6 @@ public class NimGame {
 	}
 	
 	private void playGame() {
-		int userInput = 0;
-		
 		System.out.println("To return to the previous menu, enter -1 at any time");
 
 		if (gameType == GameType.FairGo) {
@@ -66,15 +64,43 @@ public class NimGame {
 		
 		//TODO: Implement game
 		System.out.println("*** Playing Game ***");
-		while (userInput != -1) {
-			System.out.println("It is " + ((playersTurn) ? "your" : "my") + " turn");
-			playersTurn = !(playersTurn);
+		while (numSticksLeft > 0) {
+			int numSticksToRemove = -1;
 			
-			userInput = console.nextInt();
+			System.out.println("It is " + ((playersTurn) ? "your" : "the computer's") + " turn");
+			
+			if (playersTurn) {
+				//Get the player to input the number of sticks to remove
+				System.out.print("Enter the number of sticks to remove: ");
+				numSticksToRemove = console.nextInt();
+				
+				//Stop playing if they quit the game
+				if (numSticksToRemove == -1) return;
+				
+				//Validate input
+				while (!validMove(numSticksToRemove)) {
+					System.out.println("Error: Invalid number of sticks");
+					System.out.print("Enter the number of sticks to remove: ");
+					numSticksToRemove = console.nextInt();
+				}
+				
+			} else {
+				numSticksToRemove = getComputerMove();
+				System.out.print("The computer takes " + numSticksToRemove + " sticks");
+			}
+			
+			numSticksLeft -= numSticksToRemove;
+			System.out.print("The computer takes " + numSticksToRemove + " sticks");
+			
+			if (gameOver()) {
+				System.out.println((playersTurn) ? "You Win!" : "I Win!");
+			}
+			
+			playersTurn = !(playersTurn);
 		}
 		
 	}
-	
+ 	
 	private int getComputerMove() {
 		Random rand = new Random();
 		
@@ -89,6 +115,10 @@ public class NimGame {
 	private boolean validMove(int numSticksToRemove) {
 		int upperBound = Math.min(lastNumRemoved * 2, numSticksLeft);
 		return numSticksToRemove <= upperBound;
+	}
+	
+	private boolean gameOver() {
+		return numSticksLeft == 0;
 	}
 
 }
