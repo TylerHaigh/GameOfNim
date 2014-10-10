@@ -32,12 +32,12 @@ public class NimGame {
 		
 		matrix[startX][startY] = new NimVertex(startX, startY);
 		
-		matrix = makeNeighbours(matrix, startX, startY);
+		makeNeighbours(matrix, startX, startY);
 		
 		for (int row = 1; row < matrix.length; row++) {
 			for (int column= 1; column < matrix[row].length; column++) {
 				if (matrix[row][column] != null) {
-					matrix = makeNeighbours(matrix, row, column);
+					makeNeighbours(matrix, row, column);
 				}
 			}
 		}
@@ -45,24 +45,55 @@ public class NimGame {
 		return matrix;
 	}
 	
-	private NimVertex[][] makeNeighbours(NimVertex[][] matrix, int remaining, int canTake) {
-		NimVertex[][] clone = matrix.clone();
-		
+	private void makeNeighbours(NimVertex[][] matrix, int remaining, int canTake) {
 		for (int i = 1; i <= canTake; i++) {
 			int neighbourX = remaining - i;
 			int neighbourY = Math.min(neighbourX, 2 * i);
-			clone[neighbourX][neighbourY] = new NimVertex(neighbourX, neighbourY);
+			matrix[neighbourX][neighbourY] = new NimVertex(neighbourX, neighbourY);
 		}
-		
-		return clone;
+	}
+	
+	private void makeNeighbours(NimVertex[][] matrix, int remaining, int canTake,
+			AdjacencyList adjList, int adjListIndex) {
+		for (int i = 1; i <= canTake; i++) {
+			int neighbourX = remaining - i;
+			int neighbourY = Math.min(neighbourX, 2 * i);
+			
+			NimVertex vert = new NimVertex(neighbourX, neighbourY);
+			matrix[neighbourX][neighbourY] = vert;
+			adjList.add(vert, adjListIndex);
+		}
 	}
 	
 	public AdjacencyList constructNimGraph() {
 		
-		AdjacencyList nimGraph = new AdjacencyList(initialNumMatchsticks);
-		NimVertex[][] matrix = constructNimMatrix();
+		int graphSize = initialNumMatchsticks + 1;
+		AdjacencyList nimGraph = new AdjacencyList(graphSize * 2);
+		NimVertex[][] matrix = new NimVertex[graphSize][graphSize];
+
+		int startX = initialNumMatchsticks;
+		int startY = startX - 1;
 		
-		return null;
+		NimVertex vert = new NimVertex(startX, startY);
+		matrix[startX][startY] = vert;
+
+		int adjListIndex = 0;
+		nimGraph.add(vert, adjListIndex);
+		makeNeighbours(matrix, startX, startY, nimGraph, adjListIndex);
+		
+		for (int row = (matrix.length - 2); row >= 0 ; row--) {
+			for (int column= (matrix[row].length - 2); column >= 0 ; column--) {
+				if (matrix[row][column] != null) {
+					adjListIndex++;
+					NimVertex addVert = matrix[row][column];
+					
+					nimGraph.add(addVert, adjListIndex);
+					makeNeighbours(matrix, row, column, nimGraph, adjListIndex);
+				}
+			}
+		}
+		
+		return nimGraph;
 		
 	}
 	

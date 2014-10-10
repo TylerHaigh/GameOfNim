@@ -6,9 +6,19 @@ import java.util.LinkedList;
 public class AdjacencyList {
 
 	private ArrayList<LinkedList<Vertex>> list;
+	private int size;
 	
 	public AdjacencyList(int size) {
-		list = new ArrayList<LinkedList<Vertex>>(size);
+		this.list = new ArrayList<LinkedList<Vertex>>();
+		this.size = size;
+		
+		for (int i = 0; i < size; i++) {
+			list.add(new LinkedList<Vertex>());
+		}
+	}
+	
+	public int getSize() {
+		return this.size;
 	}
 	
 	public void add(Vertex v, int index) {
@@ -21,6 +31,11 @@ public class AdjacencyList {
 		return adjList.size();
 	}
 	
+	public Vertex getVertex(int listIndex, int vertexIndex) {
+		LinkedList<Vertex> adjList = this.list.get(listIndex);
+		return adjList.get(vertexIndex);
+	}
+	
 	public String toString() {
 		String result = "";
 		for (LinkedList<Vertex> adjList : list) {
@@ -29,7 +44,7 @@ public class AdjacencyList {
 			}
 			result += "\n";
 		}
-		result = result.substring(result.length()-1,  result.length());
+		result = result.substring(0,  result.length()-1);
 		return result;
 	}
 }

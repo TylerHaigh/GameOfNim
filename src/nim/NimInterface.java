@@ -1,5 +1,6 @@
 package nim;
 
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class NimInterface {
@@ -92,10 +93,11 @@ public class NimInterface {
 	}
 	
 	private void constructNimGraph() {
-		//TODO: Construct Graph
-		System.out.println("*** Construct Graph ***");
-		//int[][] matrix = game.constructNimMatrix();
 		AdjacencyList nimGraph = game.constructNimGraph();
+		
+		System.out.println(nimGraph.toString());
+		
+		
 	}
 	
 	private void labelNimGraph() {
