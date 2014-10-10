@@ -68,7 +68,7 @@ public class NimGame {
 	public AdjacencyList constructNimGraph() {
 		
 		int graphSize = initialNumMatchsticks + 1;
-		AdjacencyList nimGraph = new AdjacencyList(graphSize * 2);
+		AdjacencyList nimGraph = new AdjacencyList(graphSize * graphSize);
 		NimVertex[][] matrix = new NimVertex[graphSize][graphSize];
 
 		int startX = initialNumMatchsticks;

@@ -39,10 +39,12 @@ public class AdjacencyList {
 	public String toString() {
 		String result = "";
 		for (LinkedList<Vertex> adjList : list) {
-			for (Vertex v : adjList) {
-				result += v.toString();
+			if (adjList.size() > 0) {
+				for (Vertex v : adjList) {
+					result += v.toString();
+				}
+				result += "\n";
 			}
-			result += "\n";
 		}
 		result = result.substring(0,  result.length()-1);
 		return result;
