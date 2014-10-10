@@ -6,6 +6,7 @@ public class NimInterface {
 	
 	private int initialMatchsticks = -1;
 	private Scanner console;
+	private NimGame game;
 	
 	public NimInterface() {
 		console = new Scanner(System.in);
@@ -57,6 +58,7 @@ public class NimInterface {
 		}
 		
 		this.initialMatchsticks = numSticks;
+		this.game = new NimGame(numSticks);
 		System.out.println("There are " + initialMatchsticks + " matchsticks on the table");
 	}
 	
@@ -92,6 +94,8 @@ public class NimInterface {
 	private void constructNimGraph() {
 		//TODO: Construct Graph
 		System.out.println("*** Construct Graph ***");
+		//int[][] matrix = game.constructNimMatrix();
+		AdjacencyList nimGraph = game.constructNimGraph();
 	}
 	
 	private void labelNimGraph() {
@@ -102,7 +106,6 @@ public class NimInterface {
 	private void playNim() {
 		//TODO: Implement Nim
 		System.out.println("*** Play NIM ***");
-		NimGame game = new NimGame(initialMatchsticks);
-		game.start();
+		this.game.start();
 	}
 }

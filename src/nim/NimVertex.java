@@ -27,5 +27,7 @@ public class NimVertex extends Vertex {
 		this.sticksCanTake = sticksCanTake;
 	}
 	
-	
+	public String toString() {
+		return "(" + sticksRemaining + "," + sticksCanTake + ")";
+	}
 }

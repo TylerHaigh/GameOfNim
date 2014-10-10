@@ -24,6 +24,48 @@ public class NimGame {
 		playGame();
 	}
 	
+	public NimVertex[][] constructNimMatrix() {
+		NimVertex[][] matrix = new NimVertex[(initialNumMatchsticks+1)][(initialNumMatchsticks+1)];
+
+		int startX = initialNumMatchsticks;
+		int startY = startX - 1;
+		
+		matrix[startX][startY] = new NimVertex(startX, startY);
+		
+		matrix = makeNeighbours(matrix, startX, startY);
+		
+		for (int row = 1; row < matrix.length; row++) {
+			for (int column= 1; column < matrix[row].length; column++) {
+				if (matrix[row][column] != null) {
+					matrix = makeNeighbours(matrix, row, column);
+				}
+			}
+		}
+		
+		return matrix;
+	}
+	
+	private NimVertex[][] makeNeighbours(NimVertex[][] matrix, int remaining, int canTake) {
+		NimVertex[][] clone = matrix.clone();
+		
+		for (int i = 1; i <= canTake; i++) {
+			int neighbourX = remaining - i;
+			int neighbourY = Math.min(neighbourX, 2 * i);
+			clone[neighbourX][neighbourY] = new NimVertex(neighbourX, neighbourY);
+		}
+		
+		return clone;
+	}
+	
+	public AdjacencyList constructNimGraph() {
+		
+		AdjacencyList nimGraph = new AdjacencyList(initialNumMatchsticks);
+		NimVertex[][] matrix = constructNimMatrix();
+		
+		return null;
+		
+	}
+	
 	private void setGameType() {
 		System.out.println("Please select the level:");
 		System.out.println("\t[1] You Win");
