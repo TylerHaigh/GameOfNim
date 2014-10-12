@@ -99,8 +99,8 @@ public class NimInterface {
 	}
 	
 	private void labelNimGraph() {
-		//TODO: Label Graph
 		System.out.println("*** Label Graph ***");
+		NimVertex[] sortedList = NimAlgorithms.labelNimGraph(initialMatchsticks);
 	}
 	
 	private void playNim() {

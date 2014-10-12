@@ -82,6 +82,33 @@ public class NimAlgorithms {
 	}
 	
 	public static NimVertex[] labelNimGraph(AdjacencyList adjList) {
-		return null;
+		NimVertex[] sortedList = new NimVertex[adjList.size()];
+		Integer arrayIndex = sortedList.length - 1;
+		
+		//Set all as unmarked
+		for (int i = 0; i < adjList.size(); i++) {
+			for (int j = 0; j < adjList.adjacentVertices(i); j++) {
+				NimVertex v = (NimVertex)adjList.getVertex(i, j);
+				v.setMarked(false);
+			}
+		}
+		
+		for (int i = 0; i < adjList.size(); i++) {
+			for (int j = 0; j < adjList.adjacentVertices(i); j++) {
+				NimVertex v = (NimVertex)adjList.getVertex(i, j);
+				if (!v.isMarked()) depthFirstSearch(v, sortedList, arrayIndex);
+			}
+		}
+		
+		return sortedList;
+	}
+	
+	private static void depthFirstSearch(Vertex v, Vertex[] sortedArray, Integer arrayIndex) {
+		v.setMarked(true);
+		for (Vertex w : v.getAdjacentVertices()) {
+			if(!w.isMarked()) depthFirstSearch(w, sortedArray, arrayIndex);
+		}
+		sortedArray[arrayIndex] = v;
+		arrayIndex--;
 	}
 }
