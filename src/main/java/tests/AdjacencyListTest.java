@@ -14,7 +14,7 @@ public class AdjacencyListTest {
 		AdjacencyList adjList = new AdjacencyList(3);
 		int expectedSize = 3;
 		
-		Assert.assertEquals(expectedSize, adjList.getSize());
+		Assert.assertEquals(expectedSize, adjList.size());
 	}
 	
 	@Test

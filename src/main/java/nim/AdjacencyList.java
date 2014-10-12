@@ -17,7 +17,7 @@ public class AdjacencyList {
 		}
 	}
 	
-	public int getSize() {
+	public int size() {
 		return this.size;
 	}
 	
