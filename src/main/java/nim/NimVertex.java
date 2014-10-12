@@ -5,6 +5,8 @@ public class NimVertex extends Vertex {
 	private int sticksRemaining;
 	private int sticksCanTake;
 	
+	private boolean winning;
+	
 	public NimVertex(int sticksRemaining, int sticksCanTake) {
 		super();
 		this.sticksRemaining = sticksRemaining;
@@ -18,6 +20,10 @@ public class NimVertex extends Vertex {
 	public int getSticksCanTake() {
 		return sticksCanTake;
 	}
+	
+	public boolean isWinning() {
+		return winning;
+	}
 
 	public void setSticksRemaining(int sticksRemaining) {
 		this.sticksRemaining = sticksRemaining;
@@ -25,6 +31,10 @@ public class NimVertex extends Vertex {
 
 	public void setSticksCanTake(int sticksCanTake) {
 		this.sticksCanTake = sticksCanTake;
+	}
+	
+	public void setWinning(boolean winning) {
+		this.winning = winning;
 	}
 	
 	public String toString() {

@@ -98,6 +98,15 @@ public class NimGame {
 		
 	}
 	
+	public NimVertex[] labelNimGraph() {
+		AdjacencyList adjList = constructNimGraph();
+		return labelNimGraph(adjList);
+	}
+	
+	public NimVertex[] labelNimGraph(AdjacencyList adjList) {
+		return null;
+	}
+	
 	private void setGameType() {
 		System.out.println("Please select the level:");
 		System.out.println("\t[1] You Win");

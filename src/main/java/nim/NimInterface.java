@@ -96,8 +96,6 @@ public class NimInterface {
 		AdjacencyList nimGraph = game.constructNimGraph();
 		
 		System.out.println(nimGraph.toString());
-		
-		
 	}
 	
 	private void labelNimGraph() {
