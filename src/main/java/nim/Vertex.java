@@ -12,11 +12,15 @@ public class Vertex {
 	private LinkedList<Vertex> adjacentVertices;
 	private int index;
 
+	private boolean marked;
+	
 	//Constructors
 	
 	public Vertex() {
-		adjacentVertices = new LinkedList<Vertex>();
-		index = _index;
+		this.adjacentVertices = new LinkedList<Vertex>();
+		this.index = _index;
+		this.marked = false;
+		
 		_index++;
 	}
 		
@@ -29,6 +33,10 @@ public class Vertex {
 	public int getIndex() {
 		return index;
 	}
+	
+	public boolean isMarked() {
+		return marked;
+	}
 
 	//Setters
 
@@ -40,6 +48,10 @@ public class Vertex {
 		this.index = index;
 	}
 
+	public void setMarked(boolean marked) {
+		this.marked = marked;
+	}
+	
 	//Queries
 	
 	public void append(Vertex v) {
