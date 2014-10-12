@@ -93,7 +93,7 @@ public class NimInterface {
 	}
 	
 	private void constructNimGraph() {
-		AdjacencyList nimGraph = game.constructNimGraph();
+		AdjacencyList nimGraph = NimAlgorithms.constructNimGraph(initialMatchsticks);
 		
 		System.out.println(nimGraph.toString());
 	}

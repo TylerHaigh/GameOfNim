@@ -22,8 +22,7 @@ public class NimGameTest {
 		expectedMatrix[1][1] = new NimVertex(1,1);
 		expectedMatrix[0][0] = new NimVertex(0,0);
 		
-		NimGame game = new NimGame(numberOfSticks);
-		NimVertex[][] actualMatrix = game.constructNimMatrix();
+		NimVertex[][] actualMatrix = NimAlgorithms.constructNimMatrix(numberOfSticks);
 		
 		for (int i = 0; i < expectedMatrix.length; i++) {
 			for (int j = 0; j < expectedMatrix[i].length; j++) {
