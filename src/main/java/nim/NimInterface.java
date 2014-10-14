@@ -9,6 +9,9 @@ public class NimInterface {
 	private Scanner console;
 	private NimGame game;
 	
+	//Hold the graph for quick access 
+	private AdjacencyList nimGraph;
+	
 	public NimInterface() {
 		console = new Scanner(System.in);
 	}
@@ -60,6 +63,8 @@ public class NimInterface {
 		
 		this.initialMatchsticks = numSticks;
 		this.game = new NimGame(numSticks);
+		this.nimGraph = null;
+		
 		System.out.println("There are " + initialMatchsticks + " matchsticks on the table");
 	}
 	
@@ -94,7 +99,10 @@ public class NimInterface {
 	
 	private void constructNimGraph() {
 		
-		AdjacencyList nimGraph = NimAlgorithms.constructNimGraph(initialMatchsticks);
+		if (this.nimGraph == null) {
+			AdjacencyList nimGraph = NimAlgorithms.constructNimGraph(initialMatchsticks);
+			this.nimGraph = nimGraph;
+		}
 		
 		for (int i = 0; i < nimGraph.size(); i++) {
 			if (nimGraph.adjacentVertices(i) > 0)
