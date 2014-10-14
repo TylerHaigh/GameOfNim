@@ -1,4 +1,4 @@
-package tests;
+package test;
 
 import junit.framework.Assert;
 import nim.*;
