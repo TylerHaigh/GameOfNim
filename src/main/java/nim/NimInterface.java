@@ -93,9 +93,13 @@ public class NimInterface {
 	}
 	
 	private void constructNimGraph() {
+		
 		AdjacencyList nimGraph = NimAlgorithms.constructNimGraph(initialMatchsticks);
 		
-		System.out.println(nimGraph.toString());
+		for (int i = 0; i < nimGraph.size(); i++) {
+			if (nimGraph.adjacentVertices(i) > 0)
+				System.out.println(nimGraph.printList(i));
+		}
 	}
 	
 	private void labelNimGraph() {

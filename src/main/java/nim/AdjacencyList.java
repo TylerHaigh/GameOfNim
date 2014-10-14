@@ -36,6 +36,17 @@ public class AdjacencyList {
 		return adjList.get(vertexIndex);
 	}
 	
+	public String printList(int index) {
+		String result = "";
+		LinkedList<Vertex> adjList = this.list.get(index);
+		
+		for (Vertex v: adjList) {
+			result += v.toString();
+		}
+		
+		return result;
+	}
+	
 	public String toString() {
 		String result = "";
 		for (LinkedList<Vertex> adjList : list) {
