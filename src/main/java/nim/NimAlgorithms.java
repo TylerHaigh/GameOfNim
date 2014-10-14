@@ -27,7 +27,9 @@ public class NimAlgorithms {
 		for (int i = 1; i <= canTake; i++) {
 			int neighbourX = remaining - i;
 			int neighbourY = Math.min(neighbourX, 2 * i);
-			matrix[neighbourX][neighbourY] = new NimVertex(neighbourX, neighbourY);
+			
+			if (matrix[neighbourX][neighbourY] ==  null)
+				matrix[neighbourX][neighbourY] = new NimVertex(neighbourX, neighbourY);
 		}
 	}
 	
@@ -37,8 +39,14 @@ public class NimAlgorithms {
 			int neighbourX = remaining - i;
 			int neighbourY = Math.min(neighbourX, 2 * i);
 			
-			NimVertex vert = new NimVertex(neighbourX, neighbourY);
-			matrix[neighbourX][neighbourY] = vert;
+			NimVertex vert;
+			if (matrix[neighbourX][neighbourY] == null) {
+				vert = new NimVertex(neighbourX, neighbourY);
+				matrix[neighbourX][neighbourY] = vert;
+			} else {
+				vert = matrix[neighbourX][neighbourY];
+			}
+			
 			adjList.add(vert, adjListIndex);
 		}
 	}
