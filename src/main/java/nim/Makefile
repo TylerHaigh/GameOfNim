@@ -1,4 +1,4 @@
-ROOT=../../
+ROOT=../../../../
 OUTPUT_DIR=$(ROOT)bin/
 CC=javac
 CC_OPTS=-d $(OUTPUT_DIR)
