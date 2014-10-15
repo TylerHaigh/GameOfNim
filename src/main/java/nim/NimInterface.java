@@ -1,10 +1,18 @@
 package nim;
 
-import java.util.LinkedList;
 import java.util.Scanner;
 
+/**
+ * Displays the main user interface for the NIM Game to the user. Provides
+ * all interface input and output to the program.
+ * 
+ * @author Tyler Haigh - C3182929
+ * @author Simon Hartcher - C3185790
+ *
+ */
 public class NimInterface {
 	
+	//Private instance variables
 	private int initialMatchsticks = -1;
 	private Scanner console;
 	private NimGame game;
@@ -12,18 +20,27 @@ public class NimInterface {
 	//Hold the graph for quick access 
 	private AdjacencyList nimGraph;
 	
+	/**
+	 * Constructor for the NimInterface. Initialises a Scanner to read the
+	 * console
+	 */
 	public NimInterface() {
 		console = new Scanner(System.in);
 	}
 	
+	/**
+	 * Starts the interface for the program 
+	 */
 	public void run() {
-		
 		System.out.println("Hello and welcome to NIM!");
 		displayRules();
 		updateMatchsticks();
 		displayMainMenu();
 	}
 	
+	/**
+	 * Displays the rules required to play NIM (The Subtraction Game)
+	 */
 	private void displayRules() {
 		System.out.println("Theses are the rules for the NIM game:\n");
 		
@@ -47,13 +64,19 @@ public class NimInterface {
 		System.out.println("Player to take the last matchstick wins.");
 	}
 	
+	/**
+	 * Updates the initial number of matchsticks used when the NIM game is
+	 * played. Gets the new number from the user
+	 */
 	private void updateMatchsticks() {
 		
+		//Display the message to the user
 		String message = "Please enter the " +
 				((initialMatchsticks == -1) ? "initial " : "") + 
 				"number of matchsticks on the table: ";
-		
 		System.out.print(message);
+
+		//Get the new number of matchsticks
 		int numSticks = console.nextInt();
 		while (numSticks < 2) {
 			System.out.println("Error: NIM requires at least 2 initial sticks to play");
@@ -61,20 +84,28 @@ public class NimInterface {
 			numSticks = console.nextInt();
 		}
 		
+		//Update the number of matchsticks and clear out the generated NIM Graph
 		this.initialMatchsticks = numSticks;
 		this.game = new NimGame(numSticks);
 		this.nimGraph = null;
 		
+		//Notify that the number of sticks has been updated
 		System.out.println("There are " + initialMatchsticks + " matchsticks on the table");
 	}
 	
+	/**
+	 * Main loop for the NimInterface. Gets user input to various functions available
+	 */
 	private void displayMainMenu() {
 		int userOption = -1;
+		
+		//Loop while the user as not selected quit
 		while (userOption != 6) {
 			
 			displayMainMenuOptions();
 			userOption = console.nextInt();
 			
+			//Run the selected function
 			switch (userOption) {
 				case 1 : constructNimGraph(); break;
 				case 2 : labelNimGraph(); break;
@@ -87,6 +118,10 @@ public class NimInterface {
 		}
 	}
 	
+	/**
+	 * Displays the number of options available to the user and the required
+	 * input to access it
+	 */
 	private void displayMainMenuOptions() {
 		System.out.println("Please select a number from the following menu:");
 		System.out.println("\t[1] Construct the NIM graph");
@@ -97,24 +132,44 @@ public class NimInterface {
 		System.out.println("\t[6] Exit");
 	}
 	
+	/**
+	 * Generates an Adjacency List representation of the NIM Graph for the
+	 * input number of matchsticks. Keeps the graph in memory for fast access
+	 */
 	private void constructNimGraph() {
 		
+		//Check if the graph has not been generated
 		if (this.nimGraph == null) {
+			//Generate the Graph and store it to prevent having to generate successively
 			AdjacencyList nimGraph = NimAlgorithms.constructNimGraph(initialMatchsticks);
 			this.nimGraph = nimGraph;
 		}
 		
+		//Print each Vertex's adjacent neighbours
+		
+		//It was decided that printing then entire graph at once would cause
+		//too significant a delay in responsiveness. Printing each Vertex will
+		//only improve responsiveness, not efficiency 
 		for (int i = 0; i < nimGraph.size(); i++) {
+			//Since the Adjacency List can be partially left empty, only print
+			//if there is a start vertex
 			if (nimGraph.adjacentVertices(i) > 0)
 				System.out.println(nimGraph.printList(i));
 		}
 	}
 	
+	/**
+	 * Labels each vertex in the NIM graph as either winning or losing
+	 * and displays the result to the user
+	 */
 	private void labelNimGraph() {
 		System.out.println("*** Label Graph ***");
 		NimVertex[] sortedList = NimAlgorithms.labelNimGraph(initialMatchsticks);
 	}
 	
+	/**
+	 * Starts playing the game of NIM with the input number of matchsticks
+	 */
 	private void playNim() {
 		//TODO: Implement Nim
 		System.out.println("*** Play NIM ***");
