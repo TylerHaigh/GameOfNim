@@ -1,5 +1,7 @@
 package nim;
 
+import java.util.Stack;
+
 /**
  * The underlying infrastructure that defines how the NIM Game works.
  * Provides a collection of functions that represent the NIM game
@@ -182,7 +184,7 @@ public class NimAlgorithms {
 	 */
 	public static NimVertex[] labelNimGraph(AdjacencyList adjList) {
 		NimVertex[] sortedList = new NimVertex[adjList.size()];
-		Integer arrayIndex = sortedList.length - 1;
+		int arrayIndex = sortedList.length - 1;
 		
 		//Set all as unmarked ( Theta(n^2) )
 		for (int i = 0; i < adjList.size(); i++) {
@@ -192,23 +194,23 @@ public class NimAlgorithms {
 			}
 		}
 		
-		//Loop through the Graph and sort topologically ( Theta(n^2) + ? )
-		for (int i = 0; i < adjList.size(); i++) {
-			for (int j = 0; j < adjList.adjacentVertices(i); j++) {
-				NimVertex v = (NimVertex)adjList.getVertex(i, j);
-				if (!v.isMarked()) depthFirstSearch(v, sortedList, arrayIndex);
+		Vertex vert = adjList.getVertex(0, 0);
+		Stack<Vertex> s = new Stack<Vertex>();
+		s.push(vert);
+		
+		//Sort all Vertices ( Theta(n) )
+		while (!s.isEmpty()) {
+			Vertex v = s.pop();
+			if (!v.isMarked()) {
+				v.setMarked(true);
+				for (Vertex w : v.getAdjacentVertices()) {
+					s.push(w);
+				}
+				sortedList[arrayIndex] = (NimVertex)v;
+				arrayIndex--;
 			}
 		}
 		
 		return sortedList;
-	}
-	
-	private static void depthFirstSearch(Vertex v, Vertex[] sortedArray, Integer arrayIndex) {
-		v.setMarked(true);
-		for (Vertex w : v.getAdjacentVertices()) {
-			if(!w.isMarked()) depthFirstSearch(w, sortedArray, arrayIndex);
-		}
-		sortedArray[arrayIndex] = v;
-		arrayIndex--;
 	}
 }
