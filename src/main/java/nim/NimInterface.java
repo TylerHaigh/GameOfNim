@@ -140,9 +140,16 @@ public class NimInterface {
 		
 		//Check if the graph has not been generated
 		if (this.nimGraph == null) {
-			//Generate the Graph and store it to prevent having to generate successively
-			AdjacencyList nimGraph = NimAlgorithms.constructNimGraph(initialMatchsticks);
-			this.nimGraph = nimGraph;
+			try {
+				//Generate the Graph and store it to prevent having to generate successively
+				AdjacencyList nimGraph = NimAlgorithms.constructNimGraph(initialMatchsticks);
+				this.nimGraph = nimGraph;
+			} catch (OutOfMemoryError err ) {
+				System.out.println("Error: Java ran out of memory attempting " + 
+						"to generate the NIM Graph. Please change the number " + 
+						"of sticks to a lower number");
+				return;
+			}
 		}
 		
 		//Print each Vertex's adjacent neighbours
@@ -151,10 +158,7 @@ public class NimInterface {
 		//too significant a delay in responsiveness. Printing each Vertex will
 		//only improve responsiveness, not efficiency 
 		for (int i = 0; i < nimGraph.size(); i++) {
-			//Since the Adjacency List can be partially left empty, only print
-			//if there is a start vertex
-			if (nimGraph.adjacentVertices(i) > 0)
-				System.out.println(nimGraph.printList(i));
+			System.out.println(nimGraph.printList(i));
 		}
 	}
 	
@@ -163,8 +167,27 @@ public class NimInterface {
 	 * and displays the result to the user
 	 */
 	private void labelNimGraph() {
-		System.out.println("*** Label Graph ***");
-		NimVertex[] sortedList = NimAlgorithms.labelNimGraph(initialMatchsticks);
+		
+		NimVertex[] sortedList;
+		if (this.nimGraph != null) {
+			sortedList = NimAlgorithms.labelNimGraph(nimGraph);
+		} else {
+			try {
+				sortedList = NimAlgorithms.labelNimGraph(initialMatchsticks);
+			} catch (OutOfMemoryError err) {
+				System.out.println("Error: Java ran out of memory attempting " + 
+						"to generate the NIM Graph. Please change the number " + 
+						"of sticks to a lower number");
+				return;
+			}
+		}
+		
+		for (int i = 0; i < sortedList.length; i++) {
+			Vertex v = sortedList[i];
+			System.out.print(v.toString() + " ");
+		}
+		
+		System.out.println();
 	}
 	
 	/**
