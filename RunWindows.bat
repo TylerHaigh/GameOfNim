@@ -1,5 +1,7 @@
 @echo off
 
+cls
+
 echo *** Running NIM ***
 echo
 
