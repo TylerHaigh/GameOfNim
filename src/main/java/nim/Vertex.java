@@ -40,7 +40,7 @@ public class Vertex {
 	
 	/**
 	 * Getter method for the List of Adjacent Vertices to this Vertex
-	 * @return A LIst of Vertices adjacent to this Vertex
+	 * @return A List of Vertices adjacent to this Vertex
 	 */
 	public LinkedList<Vertex> getAdjacentVertices() {
 		return adjacentVertices;
@@ -103,6 +103,14 @@ public class Vertex {
 		adjacentVertices.add(v);
 	}
 
+	public int numEdgesOut() {
+		return adjacentVertices.size();
+	}
+	
+	public Vertex getAdjacentVertexAt(int index) {
+		return adjacentVertices.get(index);
+	}
+	
 	/**
 	 * Checks whether two Vertices are equal
 	 * @param obj A generic object to test against

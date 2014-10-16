@@ -28,7 +28,7 @@ public class AdjacencyListTest {
 		Vertex addVertex = new Vertex();
 		adjList.add(addVertex, 0);
 		
-		Assert.assertEquals(addVertex, adjList.getVertex(0, 0));
+		Assert.assertEquals(addVertex, adjList.getVertex(0));
 		
 	}
 	
@@ -36,9 +36,10 @@ public class AdjacencyListTest {
 	public void testAdjacentVertices() {
 		AdjacencyList adjList = new AdjacencyList(2);
 		Vertex addVertex = new Vertex();
+		
 		adjList.add(addVertex, 0);
 		adjList.add(addVertex, 0);
-		int expetedSize = 2;
+		int expetedSize = 1;
 		
 		Assert.assertEquals(expetedSize, adjList.adjacentVertices(0));
 	}

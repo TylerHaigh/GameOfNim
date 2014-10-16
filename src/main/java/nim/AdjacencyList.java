@@ -1,6 +1,5 @@
 package nim;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -12,7 +11,7 @@ import java.util.LinkedList;
 public class AdjacencyList {
 
 	//Private Instance Variables
-	private ArrayList<LinkedList<Vertex>> list;
+	private LinkedList<Vertex> list;
 	private int size;
 	
 	/**
@@ -21,12 +20,12 @@ public class AdjacencyList {
 	 */
 	public AdjacencyList(int maxSize) {
 		//Set the private instance variables
-		this.list = new ArrayList<LinkedList<Vertex>>();
+		this.list = new LinkedList<Vertex>();
 		this.size = 0;
 		
 		//Create the empty list
 		for (int i = 0; i < maxSize; i++) {
-			list.add(new LinkedList<Vertex>());
+			list.add(null);
 		}
 	}
 	
@@ -47,16 +46,16 @@ public class AdjacencyList {
 	 * @param index The index to add the Vertex to
 	 */
 	public void add(Vertex v, int index) {
-		LinkedList<Vertex> adjList = this.list.get(index);
+		Vertex w = this.list.get(index);
 		
-		if (adjList.size() > 0) {
-			Vertex w = adjList.get(0);
+		//Append if the head Vertex exists at the index. Otherwise make a new
+		//head node as a point of reference
+		if (w != null) {
 			w.append(v);
 		} else {
+			list.set(index, v);
 			this.size++;
 		}
-		
-		adjList.add(v);
 	}
 	
 	/**
@@ -67,8 +66,13 @@ public class AdjacencyList {
 	 * @return The number of adjacent Vertices in the input index
 	 */
 	public int adjacentVertices(int vertexIndex) {
-		LinkedList<Vertex> adjList = this.list.get(vertexIndex);
-		return adjList.size();
+		Vertex v = this.list.get(vertexIndex);
+		return v.numEdgesOut();
+	}
+	
+	public Vertex getVertex(int listIndex) {
+		Vertex v = this.list.get(listIndex);
+		return v;
 	}
 	
 	/**
@@ -79,8 +83,8 @@ public class AdjacencyList {
 	 * @return The Vertex at the Adjacent Vertex position in the List Index row
 	 */
 	public Vertex getVertex(int listIndex, int vertexIndex) {
-		LinkedList<Vertex> adjList = this.list.get(listIndex);
-		return adjList.get(vertexIndex);
+		Vertex v = this.list.get(listIndex);
+		return v.getAdjacentVertexAt(vertexIndex);
 	}
 	
 	/**
@@ -91,13 +95,16 @@ public class AdjacencyList {
 	 */
 	public String printList(int index) {
 		String result = "";
-		LinkedList<Vertex> adjList = this.list.get(index);
+		Vertex v = this.list.get(index);
+		
+		result += v.toString() + ":";
 		
 		//Loop through all vertices in the index
-		for (Vertex v: adjList) {
-			result += v.toString();
+		for (Vertex w: v.getAdjacentVertices()) {
+			result += w.toString() + ",";
 		}
 		
+		result = result.substring(0, result.length() - 1);
 		return result;
 	}
 	
@@ -110,19 +117,22 @@ public class AdjacencyList {
 		String result = "";
 		
 		//Loop through each list item
-		for (LinkedList<Vertex> adjList : list) {
+		for (Vertex v : list) {
 			//Check the list is not empty
-			if (adjList.size() > 0) {
+			if (v != null) {
+				
+				result += v.toString() + ":";
+				
 				//Loop through all Vertices in the list
-				for (Vertex v : adjList) {
-					result += v.toString();
+				for (Vertex w : v.getAdjacentVertices()) {
+					result += w.toString() + ",";
 				}
 				result += "\n";
 			}
 		}
 		
 		//Remove the last trailing \n and return
-		result = result.substring(0,  result.length()-1);
+		result = result.substring(0,  result.length()-2);
 		return result;
 	}
 }
