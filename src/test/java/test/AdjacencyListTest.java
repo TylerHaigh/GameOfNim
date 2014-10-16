@@ -12,6 +12,11 @@ public class AdjacencyListTest {
 	@Test
 	public void testGetSize() {
 		AdjacencyList adjList = new AdjacencyList(3);
+		
+		adjList.add(new Vertex(), 0);
+		adjList.add(new Vertex(), 1);
+		adjList.add(new Vertex(), 2);
+		
 		int expectedSize = 3;
 		
 		Assert.assertEquals(expectedSize, adjList.size());

@@ -19,13 +19,13 @@ public class AdjacencyList {
 	 * Constructor for an Adjacency List. Initialises a new list on input size
 	 * @param size The number of Vertices in the graph
 	 */
-	public AdjacencyList(int size) {
+	public AdjacencyList(int maxSize) {
 		//Set the private instance variables
 		this.list = new ArrayList<LinkedList<Vertex>>();
-		this.size = size;
+		this.size = 0;
 		
 		//Create the empty list
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < maxSize; i++) {
 			list.add(new LinkedList<Vertex>());
 		}
 	}
@@ -48,6 +48,14 @@ public class AdjacencyList {
 	 */
 	public void add(Vertex v, int index) {
 		LinkedList<Vertex> adjList = this.list.get(index);
+		
+		if (adjList.size() > 0) {
+			Vertex w = adjList.get(0);
+			w.append(v);
+		} else {
+			this.size++;
+		}
+		
 		adjList.add(v);
 	}
 	
