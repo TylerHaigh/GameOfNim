@@ -169,17 +169,17 @@ public class NimInterface {
 	private void labelNimGraph() {
 		
 		NimVertex[] sortedList;
-		if (this.nimGraph != null) {
-			sortedList = NimAlgorithms.labelNimGraph(nimGraph);
-		} else {
-			try {
-				sortedList = NimAlgorithms.labelNimGraph(initialMatchsticks);
-			} catch (OutOfMemoryError err) {
-				System.out.println("Error: Java ran out of memory attempting " + 
-						"to generate the NIM Graph. Please change the number " + 
-						"of sticks to a lower number");
-				return;
-			}
+		try {
+			
+			sortedList = (this.nimGraph != null) ? 
+					NimAlgorithms.labelNimGraph(nimGraph) :
+					NimAlgorithms.labelNimGraph(initialMatchsticks);
+			
+		} catch (OutOfMemoryError err) {
+			System.out.println("Error: Java ran out of memory attempting " + 
+					"to generate the NIM Graph. Please change the number " + 
+					"of sticks to a lower number");
+			return;
 		}
 		
 		for (int i = 0; i < sortedList.length; i++) {
