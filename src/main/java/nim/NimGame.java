@@ -21,6 +21,8 @@ public class NimGame {
 	private Scanner console;
 	private boolean playersTurn;
 	
+	private AdjacencyList nimGraph;
+	
 	/**
 	 * Constructor for the NIM Game. Sets the initial state of the game
 	 * 
@@ -36,6 +38,7 @@ public class NimGame {
 	 * Starts the NIM game
 	 */
 	public void start() {
+		this.nimGraph = NimAlgorithms.constructNimGraph(initialNumMatchsticks);
 		setGameType();
 		playGame();
 	}
@@ -69,29 +72,7 @@ public class NimGame {
 	private void playGame() {
 		System.out.println("To return to the previous menu, enter -1 at any time");
 
-		if (gameType == GameType.FairGo) {
-			//Determine whether the player wants to go first
-			System.out.print("Do you want to go first? [Y|N]: ");
-			
-			//Get the user input
-			console = new Scanner(System.in);
-			String playFirst = console.next();
-			
-			//Perform error checking for invalid entry
-			while (!playFirst.equalsIgnoreCase("Y") && !playFirst.equalsIgnoreCase("N")) {
-				System.out.println("Error: Please enter either Y or N");
-				System.out.print("Do you want to go first? [Y|N]: ");
-				playFirst = console.next();
-			}
-			
-			//Set whose turn it is
-			playersTurn = (playFirst.equalsIgnoreCase("Y")) ? true : false;
-		} else {
-			playersTurn = (gameType == GameType.MissionImpossible) ? false: true;
-		}
-		
-		//Re-initialise the scanner to prevent issues with reading input
-		console = new Scanner(System.in);
+		this.playersTurn = getFirstPlayerTurn();
 		
 		//TODO: Implement game
 		System.out.println("*** Playing Game ***");
@@ -121,7 +102,7 @@ public class NimGame {
 			}
 			
 			numSticksLeft -= numSticksToRemove;
-			System.out.print("The computer takes " + numSticksToRemove + " sticks");
+			//System.out.print("The computer takes " + numSticksToRemove + " sticks");
 			
 			if (gameOver()) {
 				System.out.println((playersTurn) ? "You Win!" : "I Win!");
@@ -132,6 +113,36 @@ public class NimGame {
 		
 	}
  	
+	private boolean getFirstPlayerTurn() {
+		boolean playersTurn = false;
+		
+		if (gameType == GameType.FairGo) {
+			//Determine whether the player wants to go first
+			System.out.print("Do you want to go first? [Y|N]: ");
+			
+			//Get the user input
+			console = new Scanner(System.in);
+			String playFirst = console.next();
+			
+			//Perform error checking for invalid entry
+			while (!playFirst.equalsIgnoreCase("Y") && !playFirst.equalsIgnoreCase("N")) {
+				System.out.println("Error: Please enter either Y or N");
+				System.out.print("Do you want to go first? [Y|N]: ");
+				playFirst = console.next();
+			}
+			
+			//Set whose turn it is
+			playersTurn = (playFirst.equalsIgnoreCase("Y")) ? true : false;
+		} else {
+			playersTurn = (gameType == GameType.MissionImpossible) ? false: true;
+		}
+		
+		//Re-initialise the scanner to prevent issues with reading input
+		console = new Scanner(System.in);
+		
+		return playersTurn;
+	}
+	
 	/**
 	 * Calculates the number of sticks the computer will take based on the Game
 	 * Type as chosen by the player
