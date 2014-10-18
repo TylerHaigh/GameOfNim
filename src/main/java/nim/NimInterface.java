@@ -81,12 +81,14 @@ public class NimInterface {
 		//Get the new number of matchsticks
 		int numSticks = console.nextInt();
 		
-		System.out.println("<" + numSticks + ">");
+		System.out.println("<" + numSticks + ">\n");
 		
 		while (numSticks < 2) {
-			System.out.println("Error: NIM requires at least 2 initial sticks to play");
-			System.out.print(message);
+			System.out.println("Error: NIM requires at least 2 initial sticks to play\n");
+			System.out.println(message);
 			numSticks = console.nextInt();
+			
+			System.out.println("<" + numSticks + ">\n");
 		}
 		
 		//Update the number of matchsticks and clear out the generated NIM Graph
@@ -95,7 +97,7 @@ public class NimInterface {
 		this.nimGraph = null;
 		
 		//Notify that the number of sticks has been updated
-		System.out.println("\nThere are " + initialMatchsticks + " matchsticks on the table.\n");
+		System.out.println("There are " + initialMatchsticks + " matchsticks on the table.\n");
 	}
 	
 	/**
@@ -217,8 +219,7 @@ public class NimInterface {
 	 * Starts playing the game of NIM with the input number of matchsticks
 	 */
 	private void playNim() {
-		//TODO: Implement Nim
-		System.out.println("*** Play NIM ***");
+		System.out.println();
 		this.game.start();
 	}
 }
