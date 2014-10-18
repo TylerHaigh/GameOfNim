@@ -231,10 +231,10 @@ public class NimGame {
 			//Play fair
 			
 			if (numSticksLeft == initialNumMatchsticks) {
-				return rand.nextInt(initialNumMatchsticks);
+				return 1 + rand.nextInt(initialNumMatchsticks);
 			} else {
 				int upperBound = Math.min(lastNumRemoved * 2, numSticksLeft);
-				return rand.nextInt(upperBound);
+				return 1 + rand.nextInt(upperBound);
 			}
 		}
 		
