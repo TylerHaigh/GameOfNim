@@ -40,22 +40,37 @@ public class NimGame {
 	 */
 	public void start() {
 		this.nimGraph = NimAlgorithms.constructNimGraph(initialNumMatchsticks);
-		setGameType();
-		playGame();
+		
+		boolean userQuit = false;
+		while (!userQuit) {
+			userQuit = setGameType();
+			if (!userQuit) userQuit = playGame();
+		}
 	}
 	
 	/**
 	 * Offers the user the choice to set the game type to play with
+	 * 
+	 * @return True if the player quit, False otherwise
 	 */
-	private void setGameType() {
+	private boolean setGameType() {
 		//Display choices
 		System.out.println("Please select the level:");
-		System.out.println("\t[1] You Win");
-		System.out.println("\t[2] Fair Go");
-		System.out.println("\t[3] Mission Impossible");
+		System.out.println("\t1. You Win");
+		System.out.println("\t2. Fair Go");
+		System.out.println("\t3. Mission Impossible");
+		
+		System.out.println();
+		System.out.println("To return to the previous menu, enter -1 at any time\n");
 		
 		//Get user input for game type
 		int gameType = console.nextInt();
+		
+		System.out.println("<" + gameType + ">\n");
+		
+		//User selected to quit
+		if (gameType == -1) return true;
+		
 		while (gameType < 1 || gameType > 3) {
 			System.out.println("Error: Level is out of bounds");
 			System.out.print("Please select the level: ");
@@ -64,54 +79,81 @@ public class NimGame {
 		
 		//Get the Game type to use when playing
 		this.gameType = GameType.fromInteger(gameType);
+		return false;
 	}
 	
 	/**
 	 * Main game loop for the Game of NIM. Continues playing game until the
 	 * game is over (0 sticks left) or the player chooses to quit (enters -1)
+	 * 
+	 * @return True if the player quit, False otherwise
 	 */
-	private void playGame() {
-		System.out.println("To return to the previous menu, enter -1 at any time");
+	private boolean playGame() {
 
-		this.playersTurn = getFirstPlayerTurn();
+		numSticksLeft = initialNumMatchsticks;
+		playersTurn = getFirstPlayerTurn();
 		
-		//TODO: Implement game
-		System.out.println("*** Playing Game ***");
 		while (numSticksLeft > 0) {
 			int numSticksToRemove = -1;
 			
-			System.out.println("It is " + ((playersTurn) ? "your" : "the computer's") + " turn");
+			System.out.println();
+			
+			String message = (numSticksLeft == initialNumMatchsticks) ? 
+					"There are " + numSticksLeft + " matchsticks on the table. " :
+					(numSticksLeft == 1) ?
+							"There is now " + numSticksLeft + " matchstick on the table. " :
+							"There are now " + numSticksLeft + " matchsticks on the table. ";
+			
+			System.out.print(message);
 			
 			if (playersTurn) {
 				//Get the player to input the number of sticks to remove
-				System.out.print("Enter the number of sticks to remove: ");
+				System.out.println("How many will you take?\n");
 				numSticksToRemove = console.nextInt();
 				
+				System.out.println("<" + numSticksToRemove + ">\n");
+				
 				//Stop playing if they quit the game
-				if (numSticksToRemove == -1) return;
+				if (numSticksToRemove == -1) return true;
 				
 				//Validate input
 				while (!validMove(numSticksToRemove)) {
-					System.out.println("Error: Invalid number of sticks");
-					System.out.print("Enter the number of sticks to remove: ");
+					String error = (numSticksToRemove == 0) ?
+							"Invalid move! You have to take at least 1 matchstick." :
+							(numSticksLeft == initialNumMatchsticks) ?
+									"Invalid move! As there is only " + initialNumMatchsticks + " matchsticks, " +
+										"you cannot take more than " + (initialNumMatchsticks - 1):
+									(lastNumRemoved == 1) ?
+										"Invalid move! As I only took 1 matchstick last time, you cannot take more than 2.": 
+										"Invalid move! As I only took " + lastNumRemoved + " matchsticks last time, " +
+											"you cannot take more than " + Math.min(2 * lastNumRemoved, numSticksLeft);
+					
+					System.out.println(error);
+					
+					System.out.println("How many will you take?\n");
 					numSticksToRemove = console.nextInt();
+					
+					System.out.println("<" + numSticksToRemove + ">\n");
 				}
 				
 			} else {
 				numSticksToRemove = getComputerMove();
-				System.out.print("The computer takes " + numSticksToRemove + " sticks");
+				System.out.println("I take " + numSticksToRemove);
 			}
 			
 			numSticksLeft -= numSticksToRemove;
-			//System.out.print("The computer takes " + numSticksToRemove + " sticks");
+			lastNumRemoved = numSticksToRemove;
 			
 			if (gameOver()) {
-				System.out.println((playersTurn) ? "You Win!" : "I Win!");
+				System.out.print("There are now 0 matchsticks on the table. ");
+				System.out.println((playersTurn) ? "You Win!\n" : "I Win!\n");
 			}
 			
 			playersTurn = !(playersTurn);
 		}
 		
+		//Game is over
+		return false;
 	}
  	
 	private boolean getFirstPlayerTurn() {
@@ -137,6 +179,11 @@ public class NimGame {
 		} else {
 			playersTurn = (gameType == GameType.MissionImpossible) ? false: true;
 		}
+		
+		String message = (playersTurn) ?
+				"You go first." :
+				"I go first.";
+		System.out.println(message);
 		
 		//Re-initialise the scanner to prevent issues with reading input
 		console = new Scanner(System.in);
@@ -189,7 +236,7 @@ public class NimGame {
 			}
 		}
 		
-		System.out.println("Current: " + currentState + "\nChosen: " + chosenPosition);
+		//System.out.println("Current: " + currentState + "\nChosen: " + chosenPosition);
 		return currentState.getSticksRemaining() - chosenPosition.getSticksRemaining();
 	}
 	
@@ -205,7 +252,7 @@ public class NimGame {
 				initialNumMatchsticks - 1
 				: Math.min(lastNumRemoved * 2, numSticksLeft);
 		
-		return numSticksToRemove <= upperBound;
+		return (numSticksToRemove != 0) && (numSticksToRemove <= upperBound);
 	}
 	
 	/**
