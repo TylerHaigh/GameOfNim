@@ -2,6 +2,7 @@ package nim;
 
 import java.util.Random;
 import java.util.Scanner;
+import java.util.LinkedList;
 
 /**
  * Plays the Game of NIM (The Subtraction Game)
@@ -151,12 +152,32 @@ public class NimGame {
 	 */
 	private int getComputerMove() {
 		Random rand = new Random();
-		
-		//TODO: Base computers decision on the game type
+		NimVertex currentState = 
+			(NimVertex)this.nimGraph.getVertex(initialNumMatchsticks - numSticksLeft);
+
+		LinkedList<NimVertex> labels = NimAlgorithms.labelNimGraph(currentState);
+
+		NimVertex chosenPosition = null;
 		if (gameType == GameType.MissionImpossible) {
-			//Send player to losing position
+			//send player to losing position
+			for (Vertex v: currentState.getAdjacentVertices()) {
+				chosenPosition = (NimVertex)v;
+
+				//get the first losing vertex
+				if (!chosenPosition.isWinning()) {
+					break;
+				}
+			}
 		} else if (gameType == GameType.YouWin) {
 			//Send player to winning position
+			for (Vertex v: currentState.getAdjacentVertices()) {
+				chosenPosition = (NimVertex)v;
+
+				//get the winning losing vertex
+				if (chosenPosition.isWinning()) {
+					break;
+				}
+			}	
 		} else {
 			//Play fair
 			
@@ -168,7 +189,8 @@ public class NimGame {
 			}
 		}
 		
-		return 1; //TODO: Remember to remove this after implementation
+		System.out.println("Current: " + currentState + "\nChosen: " + chosenPosition);
+		return currentState.getSticksRemaining() - chosenPosition.getSticksRemaining();
 	}
 	
 	/**

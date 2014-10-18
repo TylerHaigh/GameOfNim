@@ -160,6 +160,24 @@ public class NimAlgorithms {
 			adjList.add(vert, adjListIndex);
 		}
 	}
+
+	/**
+	 * Labels each node in the NIM graph as either "Winning" or "Losing"
+	 * 
+	 * @param adjList An Adjacency List representing the NIM Graph
+	 *
+	 * @return An array of Vertices sorted topologically and marked as either
+	 * 			"Winning" or "Losing"
+	 */
+	public static LinkedList<NimVertex> labelNimGraph(AdjacencyList adjList) {
+		//Set all as unmarked ( Theta(n) )
+		for (int i = 0; i < adjList.size(); i++) {
+			NimVertex v = (NimVertex)adjList.getVertex(i);
+			v.setMarked(false);
+		}
+
+		return labelNimGraph((NimVertex)adjList.getVertex(0));
+	}
 	
 	/**
 	 * Labels each node in the NIM graph as either "Winning" or "Losing"
@@ -177,33 +195,27 @@ public class NimAlgorithms {
 	/**
 	 * Labels each node in the NIM graph as either "Winning" or "Losing"
 	 * 
-	 * @param adjList An Adjacency List representing the NIM Graph
+	 * @param v Vertex to start from
 	 *
 	 * @return An array of Vertices sorted topologically and marked as either
 	 * 			"Winning" or "Losing"
 	 */
-	public static LinkedList<NimVertex> labelNimGraph(AdjacencyList adjList) {
-		//Set all as unmarked ( Theta(n) )
-		for (int i = 0; i < adjList.size(); i++) {
-			NimVertex v = (NimVertex)adjList.getVertex(i);
-			v.setMarked(false);
-		}
-		
-		LinkedList<NimVertex> sortedList = topSortRecursive((NimVertex)adjList.getVertex(0));
+	public static LinkedList<NimVertex> labelNimGraph(NimVertex v) {
+		LinkedList<NimVertex> sortedList = topSortRecursive(v);
 
 		//winning/losing
-		for (NimVertex v: sortedList) {
+		for (NimVertex n: sortedList) {
 
-			if (v.getAdjacentVertices().size() == 0) {
+			if (n.getAdjacentVertices().size() == 0) {
 				//game is over at this vertex
-				v.setWinning(false);
+				n.setWinning(false);
 			}
 			else {
-				for (Vertex n: v.getAdjacentVertices()) {
+				for (Vertex m: n.getAdjacentVertices()) {
 					//if any adjacent vertices are losing
-					if (!((NimVertex)n).isWinning()) {
-						//set v to winning and break
-						v.setWinning(true);
+					if (!((NimVertex)m).isWinning()) {
+						//set n to winning and break
+						n.setWinning(true);
 						break;
 					}
 				}
