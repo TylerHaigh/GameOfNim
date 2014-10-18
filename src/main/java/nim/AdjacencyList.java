@@ -146,9 +146,8 @@ public class AdjacencyList {
 	 * @return The List of Vertices maintained in the Adjacency List
 	 * @notes This is for testing purposes only and should be commented out for
 	 * 			final implementation 
-	 
+	 */
 	public LinkedList<Vertex> getList() {
 		return this.list;
 	}
-	*/
 }

@@ -1,6 +1,6 @@
 package nim;
 
-import java.util.Stack;
+import java.util.*;
 
 /**
  * The underlying infrastructure that defines how the NIM Game works.
@@ -169,7 +169,7 @@ public class NimAlgorithms {
 	 * @return An array of Vertices sorted topologically and marked as either
 	 * 			"Winning" or "Losing"
 	 */
-	public static NimVertex[] labelNimGraph(int initialNumMatchsticks) {
+	public static LinkedList<NimVertex> labelNimGraph(int initialNumMatchsticks) {
 		AdjacencyList adjList = constructNimGraph(initialNumMatchsticks);
 		return labelNimGraph(adjList);
 	}
@@ -182,36 +182,55 @@ public class NimAlgorithms {
 	 * @return An array of Vertices sorted topologically and marked as either
 	 * 			"Winning" or "Losing"
 	 */
-	public static NimVertex[] labelNimGraph(AdjacencyList adjList) {
-		NimVertex[] sortedList = new NimVertex[adjList.size()];
-		int arrayIndex = 0;
-		
+	public static LinkedList<NimVertex> labelNimGraph(AdjacencyList adjList) {
 		//Set all as unmarked ( Theta(n) )
 		for (int i = 0; i < adjList.size(); i++) {
 			NimVertex v = (NimVertex)adjList.getVertex(i);
 			v.setMarked(false);
 		}
 		
-		Vertex vert = adjList.getVertex(0);
-		Stack<Vertex> s = new Stack<Vertex>();
-		s.push(vert);
-		
-		//Sort all Vertices ( Oh(n) )
-		while (!s.isEmpty()) {
-			Vertex v = s.pop();
-			
-			sortedList[arrayIndex] = (NimVertex)v;
-			arrayIndex++;
-			
-			v.setMarked(true);
-			for (Vertex w : v.getAdjacentVertices()) {
-				if (!w.isMarked()) {
-					w.setMarked(true);
-					s.push(w);
+		LinkedList<NimVertex> sortedList = topSortRecursive((NimVertex)adjList.getVertex(0));
+
+		//winning/losing
+		for (NimVertex v: sortedList) {
+
+			if (v.getAdjacentVertices().size() == 0) {
+				//game is over at this vertex
+				v.setWinning(false);
+			}
+			else {
+				for (Vertex n: v.getAdjacentVertices()) {
+					//if any adjacent vertices are losing
+					if (!((NimVertex)n).isWinning()) {
+						//set v to winning and break
+						v.setWinning(true);
+						break;
+					}
 				}
 			}
 		}
-		
+
+		Collections.reverse(sortedList);
 		return sortedList;
+	}
+
+	private static LinkedList<NimVertex> topSortRecursive(NimVertex v) {
+		LinkedList<NimVertex> list = new LinkedList<NimVertex>();
+
+		//if marked do nothing
+		if (v.isMarked()) return list;
+
+		//otherwise mark v
+		v.setMarked(true);
+
+		//then traverse children
+		for (Vertex n: v.getAdjacentVertices()) {
+			list.addAll(topSortRecursive((NimVertex)n));
+		}
+
+		//add to list 
+		list.add(v);
+
+		return list;
 	}
 }

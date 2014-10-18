@@ -1,6 +1,6 @@
 package nim;
 
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Displays the main user interface for the NIM Game to the user. Provides
@@ -125,7 +125,7 @@ public class NimInterface {
 	private void displayMainMenuOptions() {
 		System.out.println("Please select a number from the following menu:");
 		System.out.println("\t[1] Construct the NIM graph");
-		System.out.println("\t[2] Label the graph nodes winnong/losing");
+		System.out.println("\t[2] Label the graph nodes winning/losing");
 		System.out.println("\t[3] Play NIM");
 		System.out.println("\t[4] Change the initial number of matchsticks on the table");
 		System.out.println("\t[5] Display Help");
@@ -168,7 +168,7 @@ public class NimInterface {
 	 */
 	private void labelNimGraph() {
 		
-		NimVertex[] sortedList;
+		LinkedList<NimVertex> sortedList;
 		try {
 			
 			sortedList = (this.nimGraph != null) ? 
@@ -182,8 +182,8 @@ public class NimInterface {
 			return;
 		}
 		
-		for (int i = 0; i < sortedList.length; i++) {
-			Vertex v = sortedList[i];
+		for (int i = 0; i < sortedList.size(); i++) {
+			Vertex v = sortedList.get(i);
 			if (v != null)
 				System.out.print(v.toString() + " ");
 		}
