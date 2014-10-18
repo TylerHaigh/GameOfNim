@@ -127,6 +127,10 @@ public class AdjacencyList {
 				for (Vertex w : v.getAdjacentVertices()) {
 					result += w.toString() + ",";
 				}
+				
+				if (result.endsWith(","))
+					result = result.substring(0, result.length() - 1);
+				
 				result += "\n";
 			}
 		}
@@ -135,4 +139,16 @@ public class AdjacencyList {
 		result = result.substring(0,  result.length()-2);
 		return result;
 	}
+	
+	/**
+	 * Getter method for the List containing the Points of Reference Vertices
+	 * in the Adjacency List
+	 * @return The List of Vertices maintained in the Adjacency List
+	 * @notes This is for testing purposes only and should be commented out for
+	 * 			final implementation 
+	 
+	public LinkedList<Vertex> getList() {
+		return this.list;
+	}
+	*/
 }
