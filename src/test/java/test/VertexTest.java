@@ -11,6 +11,19 @@ import static org.junit.Assert.*;
 
 public class VertexTest {
 
+
+	/**
+	 * Must be run by itself due to static index
+	 */
+	@Test
+	public void testToString() {
+		Vertex v = new Vertex();
+		String expectedOutput = "(1)";
+		String actualOutput = v.toString();
+		
+		Assert.assertEquals(expectedOutput, actualOutput);
+	}
+	
 	@Test
 	public void testAppend() {
 		Vertex v = new Vertex();
