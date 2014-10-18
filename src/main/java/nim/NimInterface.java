@@ -32,7 +32,7 @@ public class NimInterface {
 	 * Starts the interface for the program 
 	 */
 	public void run() {
-		System.out.println("Hello and welcome to NIM!");
+		System.out.println("Hello and welcome to NIM!\n");
 		displayRules();
 		updateMatchsticks();
 		displayMainMenu();
@@ -48,20 +48,20 @@ public class NimInterface {
 		
 		System.out.println("There is a pile of matchstiks on the table.\n");
 		
-		System.out.println("Player A starts, taking some matchsticks; he/she\n" +
+		System.out.println("Player A starts, taking some matchsticks; he/she " +
 				"must take at least one on the table.\n");
 		
-		System.out.println("Player B then takes some matchsticks; he/she\n" +
-				"must take at lease one, but cannot take more than double the\n" +
-				"number of matchsticks player A took; obviously player B cannot\n" + 
+		System.out.println("Player B then takes some matchsticks; he/she " +
+				"must take at lease one, but cannot take more than double the " +
+				"number of matchsticks player A took; obviously player B cannot " + 
 				"take more than the number of the matchsticks left on the table.\n");
 		
-		System.out.println("In general, a player can take any number of\n" +
-				"matchsticks between 1 and double the numer that the previous\n" +
-				"player took, but obviously no more than the number of\n" +
+		System.out.println("In general, a player can take any number of " +
+				"matchsticks between 1 and double the numer that the previous " +
+				"player took, but obviously no more than the number of " +
 				"matchsticks left on the table.\n");
 		
-		System.out.println("Player to take the last matchstick wins.");
+		System.out.println("Player to take the last matchstick wins.\n");
 	}
 	
 	/**
@@ -73,8 +73,8 @@ public class NimInterface {
 		//Display the message to the user
 		String message = "Please enter the " +
 				((initialMatchsticks == -1) ? "initial " : "") + 
-				"number of matchsticks on the table: ";
-		System.out.print(message);
+				"number of matchsticks on the table.\n";
+		System.out.println(message);
 
 		//Get the new number of matchsticks
 		int numSticks = console.nextInt();
@@ -90,7 +90,7 @@ public class NimInterface {
 		this.nimGraph = null;
 		
 		//Notify that the number of sticks has been updated
-		System.out.println("There are " + initialMatchsticks + " matchsticks on the table");
+		System.out.println("\nThere are " + initialMatchsticks + " matchsticks on the table.\n");
 	}
 	
 	/**
@@ -100,7 +100,7 @@ public class NimInterface {
 		int userOption = -1;
 		
 		//Loop while the user as not selected quit
-		while (userOption != 6) {
+		while (userOption != 5) {
 			
 			displayMainMenuOptions();
 			userOption = console.nextInt();
@@ -111,8 +111,8 @@ public class NimInterface {
 				case 2 : labelNimGraph(); break;
 				case 3 : playNim(); break;
 				case 4 : updateMatchsticks(); break;
-				case 5 : displayRules(); break;
-				case 6 : /*Do Nothing*/ break;
+				//case 5 : displayRules(); break;
+				case 5 : /*Do Nothing*/ break;
 				default : System.out.println("Error: Input is out of bounds");
 			}
 		}
@@ -124,12 +124,13 @@ public class NimInterface {
 	 */
 	private void displayMainMenuOptions() {
 		System.out.println("Please select a number from the following menu:");
-		System.out.println("\t[1] Construct the NIM graph");
-		System.out.println("\t[2] Label the graph nodes winning/losing");
-		System.out.println("\t[3] Play NIM");
-		System.out.println("\t[4] Change the initial number of matchsticks on the table");
-		System.out.println("\t[5] Display Help");
-		System.out.println("\t[6] Exit");
+		System.out.println("\t1. Construct the NIM graph");
+		System.out.println("\t2. Label the graph nodes winning/losing");
+		System.out.println("\t3. Play NIM");
+		System.out.println("\t4. Change the initial number of matchsticks on the table");
+		//System.out.println("\t5. Display Help");
+		System.out.println("\t5. Exit");
+		System.out.println();
 	}
 	
 	/**
@@ -137,6 +138,10 @@ public class NimInterface {
 	 * input number of matchsticks. Keeps the graph in memory for fast access
 	 */
 	private void constructNimGraph() {
+		
+		System.out.println();
+		System.out.println("The NIM graph for n = " + initialMatchsticks + ":");
+		System.out.println();
 		
 		//Check if the graph has not been generated
 		if (this.nimGraph == null) {
@@ -160,6 +165,8 @@ public class NimInterface {
 		for (int i = 0; i < nimGraph.size(); i++) {
 			System.out.println(nimGraph.printList(i));
 		}
+		
+		System.out.println();
 	}
 	
 	/**
@@ -167,6 +174,10 @@ public class NimInterface {
 	 * and displays the result to the user
 	 */
 	private void labelNimGraph() {
+		
+		System.out.println();
+		System.out.println("The node labels in the NIM graph for n = " + initialMatchsticks + ":");
+		System.out.println();
 		
 		LinkedList<NimVertex> sortedList;
 		try {
@@ -183,9 +194,13 @@ public class NimInterface {
 		}
 		
 		for (int i = 0; i < sortedList.size(); i++) {
-			Vertex v = sortedList.get(i);
-			if (v != null)
-				System.out.print(v.toString() + " ");
+			NimVertex v = sortedList.get(i);
+			if (v != null) {
+				String message = v.toString() + ": ";
+				message += (v.isWinning()) ? "Winning" : "Losing";
+				System.out.println(message);
+			}
+				
 		}
 		
 		System.out.println();
