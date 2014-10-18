@@ -61,7 +61,7 @@ public class NimInterface {
 				"player took, but obviously no more than the number of " +
 				"matchsticks left on the table.\n");
 		
-		System.out.println("Player to take the last matchstick wins.\n");
+		System.out.println("Player to take the last matchstick wins.");
 	}
 	
 	/**
@@ -69,6 +69,8 @@ public class NimInterface {
 	 * played. Gets the new number from the user
 	 */
 	private void updateMatchsticks() {
+		
+		System.out.println();
 		
 		//Display the message to the user
 		String message = "Please enter the " +
@@ -78,6 +80,9 @@ public class NimInterface {
 
 		//Get the new number of matchsticks
 		int numSticks = console.nextInt();
+		
+		System.out.println("<" + numSticks + ">");
+		
 		while (numSticks < 2) {
 			System.out.println("Error: NIM requires at least 2 initial sticks to play");
 			System.out.print(message);
@@ -104,6 +109,8 @@ public class NimInterface {
 			
 			displayMainMenuOptions();
 			userOption = console.nextInt();
+			
+			System.out.println("<" + userOption + ">");
 			
 			//Run the selected function
 			switch (userOption) {
