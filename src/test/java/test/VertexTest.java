@@ -18,6 +18,7 @@ public class VertexTest {
 	@Test
 	public void testToString() {
 		Vertex v = new Vertex();
+		v.setIndex(1);
 		String expectedOutput = "(1)";
 		String actualOutput = v.toString();
 		
