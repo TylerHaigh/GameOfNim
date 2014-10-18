@@ -112,6 +112,16 @@ public class Vertex {
 	}
 	
 	/**
+	 * Generates a String representation of a Vertex object
+	 * @return A String representation of a Vertex
+	 * @example (1)
+	 */
+	@Override
+	public String toString() {
+		return "(" + this.index + ")";
+	}
+	
+	/**
 	 * Checks whether two Vertices are equal
 	 * @param obj A generic object to test against
 	 * @return True if the Vertices are equal, false otherwise
