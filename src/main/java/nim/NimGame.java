@@ -160,18 +160,20 @@ public class NimGame {
 		boolean playersTurn = false;
 		
 		if (gameType == GameType.FairGo) {
-			//Determine whether the player wants to go first
-			System.out.print("Do you want to go first? [Y|N]: ");
-			
 			//Get the user input
 			console = new Scanner(System.in);
-			String playFirst = console.next();
 			
+			//Determine whether the player wants to go first
+			System.out.println("Do you want to go first? [Y|N]?\n");
+			String playFirst = console.next();
+			System.out.println("<" + playFirst + ">\n");
+
 			//Perform error checking for invalid entry
 			while (!playFirst.equalsIgnoreCase("Y") && !playFirst.equalsIgnoreCase("N")) {
 				System.out.println("Error: Please enter either Y or N");
-				System.out.print("Do you want to go first? [Y|N]: ");
+				System.out.print("Do you want to go first? [Y|N]?\n");
 				playFirst = console.next();
+				System.out.println("<" + playFirst + ">\n");
 			}
 			
 			//Set whose turn it is
