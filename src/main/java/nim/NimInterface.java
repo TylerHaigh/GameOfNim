@@ -184,7 +184,8 @@ public class NimInterface {
 		
 		for (int i = 0; i < sortedList.length; i++) {
 			Vertex v = sortedList[i];
-			System.out.print(v.toString() + " ");
+			if (v != null)
+				System.out.print(v.toString() + " ");
 		}
 		
 		System.out.println();

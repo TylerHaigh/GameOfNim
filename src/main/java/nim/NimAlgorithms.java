@@ -184,30 +184,31 @@ public class NimAlgorithms {
 	 */
 	public static NimVertex[] labelNimGraph(AdjacencyList adjList) {
 		NimVertex[] sortedList = new NimVertex[adjList.size()];
-		int arrayIndex = sortedList.length - 1;
+		int arrayIndex = 0;
 		
-		//Set all as unmarked ( Theta(n^2) )
+		//Set all as unmarked ( Theta(n) )
 		for (int i = 0; i < adjList.size(); i++) {
-			for (int j = 0; j < adjList.adjacentVertices(i); j++) {
-				NimVertex v = (NimVertex)adjList.getVertex(i, j);
-				v.setMarked(false);
-			}
+			NimVertex v = (NimVertex)adjList.getVertex(i);
+			v.setMarked(false);
 		}
 		
-		Vertex vert = adjList.getVertex(0, 0);
+		Vertex vert = adjList.getVertex(0);
 		Stack<Vertex> s = new Stack<Vertex>();
 		s.push(vert);
 		
-		//Sort all Vertices ( Theta(n) )
+		//Sort all Vertices ( Oh(n) )
 		while (!s.isEmpty()) {
 			Vertex v = s.pop();
-			if (!v.isMarked()) {
-				v.setMarked(true);
-				for (Vertex w : v.getAdjacentVertices()) {
+			
+			sortedList[arrayIndex] = (NimVertex)v;
+			arrayIndex++;
+			
+			v.setMarked(true);
+			for (Vertex w : v.getAdjacentVertices()) {
+				if (!w.isMarked()) {
+					w.setMarked(true);
 					s.push(w);
 				}
-				sortedList[arrayIndex] = (NimVertex)v;
-				arrayIndex--;
 			}
 		}
 		
