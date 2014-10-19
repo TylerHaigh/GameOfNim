@@ -39,8 +39,6 @@ public class NimGame {
 	 * Starts the NIM game
 	 */
 	public void start() {
-		this.nimGraph = NimAlgorithms.constructNimGraph(initialNumMatchsticks);
-		
 		boolean userQuit = false;
 		while (!userQuit) {
 			userQuit = setGameType();
@@ -89,7 +87,9 @@ public class NimGame {
 	 * @return True if the player quit, False otherwise
 	 */
 	private boolean playGame() {
-
+		//create the game board
+		this.nimGraph = NimAlgorithms.constructNimGraph(initialNumMatchsticks);
+		
 		numSticksLeft = initialNumMatchsticks;
 		playersTurn = getFirstPlayerTurn();
 		
@@ -200,6 +200,11 @@ public class NimGame {
 	 * @return boolean	The computer's choice
 	 */
 	private boolean computerFirstTurn(GameType gameType) {
+		if (this.nimGraph.size() == 0) {
+			NimAlgorithms.constructNimGraph(this.initialNumMatchsticks);
+			this.numSticksLeft = this.initialNumMatchsticks;
+		}
+
 		NimVertex currentState = 
 			(NimVertex)this.nimGraph.getVertex(initialNumMatchsticks - numSticksLeft);
 
@@ -215,14 +220,13 @@ public class NimGame {
 	 * @return The number of sticks the computer will remove
 	 */
 	private int getComputerMove() {
-		Random rand = new Random();
 		NimVertex currentState = 
 			(NimVertex)this.nimGraph.getVertex(initialNumMatchsticks - numSticksLeft);
 
 		LinkedList<NimVertex> labels = NimAlgorithms.labelNimGraph(currentState);
 
 		NimVertex chosenPosition = null;
-		if (gameType == GameType.MissionImpossible) {
+		if (gameType == GameType.MissionImpossible || gameType == GameType.FairGo) {
 			//send player to losing position
 			for (Vertex v: currentState.getAdjacentVertices()) {
 				chosenPosition = (NimVertex)v;
@@ -242,16 +246,7 @@ public class NimGame {
 					break;
 				}
 			}	
-		} else {
-			//Play fair
-			
-			if (numSticksLeft == initialNumMatchsticks) {
-				return 1 + rand.nextInt(initialNumMatchsticks);
-			} else {
-				int upperBound = Math.min(lastNumRemoved * 2, numSticksLeft);
-				return 1 + rand.nextInt(upperBound);
-			}
-		}
+		} 
 		
 		//System.out.println("Current: " + currentState + "\nChosen: " + chosenPosition);
 		return currentState.getSticksRemaining() - chosenPosition.getSticksRemaining();
