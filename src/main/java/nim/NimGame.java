@@ -156,6 +156,11 @@ public class NimGame {
 		return false;
 	}
  	
+	/**
+	 * Determines who will take the first move based on the Game Type
+	 * 
+	 * @return True if the player will go first, False if the computer will go first
+	 */
 	private boolean getFirstPlayerTurn() {
 		boolean playersTurn = false;
 		

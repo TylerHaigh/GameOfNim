@@ -168,6 +168,10 @@ public class NimAlgorithms {
 	 *
 	 * @return An array of Vertices sorted topologically and marked as either
 	 * 			"Winning" or "Losing"
+	 * 
+	 * @runningTime Oh(n)
+	 * - Theta(n) to un-mark Vertices
+	 * - Oh(n) to label Vertices
 	 */
 	public static LinkedList<NimVertex> labelNimGraph(AdjacencyList adjList) {
 		//Set all as unmarked ( Theta(n) )
@@ -176,6 +180,7 @@ public class NimAlgorithms {
 			v.setMarked(false);
 		}
 
+		//Label Graph ( Oh(n) )
 		return labelNimGraph((NimVertex)adjList.getVertex(0));
 	}
 	
@@ -186,6 +191,10 @@ public class NimAlgorithms {
 	 * 								Graph
 	 * @return An array of Vertices sorted topologically and marked as either
 	 * 			"Winning" or "Losing"
+	 * 
+	 * @runningTime Oh(n^3)
+	 * - Oh(n^3) - Construct Graph
+	 * - Oh(n) - Label graph
 	 */
 	public static LinkedList<NimVertex> labelNimGraph(int initialNumMatchsticks) {
 		AdjacencyList adjList = constructNimGraph(initialNumMatchsticks);
@@ -199,11 +208,15 @@ public class NimAlgorithms {
 	 *
 	 * @return An array of Vertices sorted topologically and marked as either
 	 * 			"Winning" or "Losing"
+	 * 
+	 * @runningTime Oh(n)
 	 */
 	public static LinkedList<NimVertex> labelNimGraph(NimVertex v) {
+		
+		//Sort the NIM Graph ( Oh(n) )
 		LinkedList<NimVertex> sortedList = topSortRecursive(v);
 
-		//winning/losing
+		//winning/losing ( Oh(n) )
 		for (NimVertex n: sortedList) {
 
 			if (n.getAdjacentVertices().size() == 0) {
@@ -222,10 +235,18 @@ public class NimAlgorithms {
 			}
 		}
 
+		//Reverse ( Oh(n) )
 		Collections.reverse(sortedList);
 		return sortedList;
 	}
 
+	/**
+	 * Performs a recursive topological sort on the NIM Graph
+	 * 
+	 * @param v The Vertex the function is using as a point of reference 
+	 * @return A sorted list of NIM Vertices
+	 * @runningTime Oh(n)
+	 */
 	private static LinkedList<NimVertex> topSortRecursive(NimVertex v) {
 		LinkedList<NimVertex> list = new LinkedList<NimVertex>();
 

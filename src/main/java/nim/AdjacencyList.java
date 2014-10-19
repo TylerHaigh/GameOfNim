@@ -144,8 +144,7 @@ public class AdjacencyList {
 	 * Getter method for the List containing the Points of Reference Vertices
 	 * in the Adjacency List
 	 * @return The List of Vertices maintained in the Adjacency List
-	 * @notes This is for testing purposes only and should be commented out for
-	 * 			final implementation 
+	 * @notes This is for testing purposes only
 	 */
 	public LinkedList<Vertex> getList() {
 		return this.list;
