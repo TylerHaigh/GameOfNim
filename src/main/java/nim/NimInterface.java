@@ -137,7 +137,6 @@ public class NimInterface {
 		System.out.println("\t2. Label the graph nodes winning/losing");
 		System.out.println("\t3. Play NIM");
 		System.out.println("\t4. Change the initial number of matchsticks on the table");
-		//System.out.println("\t5. Display Help");
 		System.out.println("\t5. Exit");
 		System.out.println();
 	}
