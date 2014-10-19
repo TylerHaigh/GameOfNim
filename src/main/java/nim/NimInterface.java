@@ -46,7 +46,7 @@ public class NimInterface {
 		
 		System.out.println("There are two players, A and B.\n");
 		
-		System.out.println("There is a pile of matchstiks on the table.\n");
+		System.out.println("There is a pile of matchsticks on the table.\n");
 		
 		System.out.println("Player A starts, taking some matchsticks; he/she " +
 				"must take at least one on the table.\n");
@@ -57,7 +57,7 @@ public class NimInterface {
 				"take more than the number of the matchsticks left on the table.\n");
 		
 		System.out.println("In general, a player can take any number of " +
-				"matchsticks between 1 and double the numer that the previous " +
+				"matchsticks between 1 and double the number that the previous " +
 				"player took, but obviously no more than the number of " +
 				"matchsticks left on the table.\n");
 		
