@@ -230,32 +230,28 @@ public class NimGame {
 
 		LinkedList<NimVertex> labels = NimAlgorithms.labelNimGraph(currentState);
 
+		boolean wantToWin = gameType == GameType.MissionImpossible 
+			? true : gameType == GameType.FairGo ? true : false;
+
+		System.out.println("Current vertex: " + currentState);
+
+		//determine next position
 		NimVertex chosenPosition = null;
-		if (gameType == GameType.MissionImpossible || gameType == GameType.FairGo) {
-			//send player to losing position
-			for (Vertex v: currentState.getAdjacentVertices()) {
-				chosenPosition = (NimVertex)v;
+		for (Vertex v: currentState.getAdjacentVertices()) {
+			NimVertex thisVertex = (NimVertex)v;
+			System.out.println("Considering Vertex: " + thisVertex);
 
-				//get the first losing vertex
-				if (!chosenPosition.isWinning()) {
-					break;
-				}
+			if (!thisVertex.isWinning() == wantToWin) {
+				chosenPosition = thisVertex;
+
+				System.out.println("Choosing vertex: " + chosenPosition);
 			}
-		} else if (gameType == GameType.YouWin) {
-			//Send player to winning position
-			for (Vertex v: currentState.getAdjacentVertices()) {
-				chosenPosition = (NimVertex)v;
-
-				//get the winning losing vertex
-				if (chosenPosition.isWinning()) {
-					break;
-				}
-			}	
-		} 
+		}
 		
-		//System.out.println("Current: " + currentState + "\nChosen: " + chosenPosition);
+		chosenPosition = chosenPosition == null ? (NimVertex)currentState.getAdjacentVertices().getFirst() : chosenPosition;
+		System.out.println("Chosen vertex: " + chosenPosition);
 		int numSticks = currentState.getSticksRemaining() - chosenPosition.getSticksRemaining();
-		return numSticks <= this.numSticksLeft ? numSticks : this.numSticksLeft;
+		return numSticks;
 	}
 	
 	/**
