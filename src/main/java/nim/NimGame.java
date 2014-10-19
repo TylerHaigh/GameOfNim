@@ -200,17 +200,17 @@ public class NimGame {
 	 * @return boolean	The computer's choice
 	 */
 	private boolean computerFirstTurn(GameType gameType) {
-		if (this.nimGraph.size() == 0) {
-			NimAlgorithms.constructNimGraph(this.initialNumMatchsticks);
-			this.numSticksLeft = this.initialNumMatchsticks;
-		}
-
+		//get first position
 		NimVertex currentState = 
 			(NimVertex)this.nimGraph.getVertex(initialNumMatchsticks - numSticksLeft);
 
-		LinkedList<NimVertex> labels = NimAlgorithms.labelNimGraph(currentState);	
+		//label the graph
+		NimAlgorithms.labelNimGraph(currentState);	
 
-		return labels.get(1).isWinning() ? false : true;
+		//get (n, n-1)
+		NimVertex vertex = (NimVertex)this.nimGraph.getVertex(initialNumMatchsticks - 1);
+
+		return !vertex.isWinning();
 	}
 	
 	/**
@@ -249,7 +249,8 @@ public class NimGame {
 		} 
 		
 		//System.out.println("Current: " + currentState + "\nChosen: " + chosenPosition);
-		return currentState.getSticksRemaining() - chosenPosition.getSticksRemaining();
+		int numSticks = currentState.getSticksRemaining() - chosenPosition.getSticksRemaining();
+		return numSticks <= this.numSticksLeft ? numSticks : this.numSticksLeft;
 	}
 	
 	/**
