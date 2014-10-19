@@ -23,6 +23,7 @@ public class NimGame {
 	private boolean playersTurn;
 	
 	private AdjacencyList nimGraph;
+	private NimVertex gameState;
 	
 	/**
 	 * Constructor for the NIM Game. Sets the initial state of the game
@@ -92,6 +93,7 @@ public class NimGame {
 		
 		numSticksLeft = initialNumMatchsticks;
 		playersTurn = getFirstPlayerTurn();
+		this.gameState = (NimVertex)nimGraph.getVertex(0);
 		
 		while (numSticksLeft > 0) {
 			int numSticksToRemove = -1;
@@ -143,8 +145,11 @@ public class NimGame {
 			
 			numSticksLeft -= numSticksToRemove;
 			lastNumRemoved = numSticksToRemove;
+			this.gameState = (NimVertex)gameState.getAdjacentVertexAt(numSticksToRemove - 1);
+			//System.out.println(gameState);
 			
 			if (gameOver()) {
+				System.out.println();
 				System.out.print("There are now 0 matchsticks on the table. ");
 				System.out.println((playersTurn) ? "You Win!\n" : "I Win!\n");
 			}
@@ -205,10 +210,11 @@ public class NimGame {
 	 * @return boolean	The computer's choice
 	 */
 	private boolean computerFirstTurn(GameType gameType) {
+
 		//get first position
 		NimVertex currentState = 
 			(NimVertex)this.nimGraph.getVertex(initialNumMatchsticks - numSticksLeft);
-
+		
 		//label the graph
 		NimAlgorithms.labelNimGraph(currentState);	
 
@@ -225,32 +231,29 @@ public class NimGame {
 	 * @return The number of sticks the computer will remove
 	 */
 	private int getComputerMove() {
-		NimVertex currentState = 
-			(NimVertex)this.nimGraph.getVertex(initialNumMatchsticks - numSticksLeft);
-
-		LinkedList<NimVertex> labels = NimAlgorithms.labelNimGraph(currentState);
+		LinkedList<NimVertex> labels = NimAlgorithms.labelNimGraph(gameState);
 
 		boolean wantToWin = gameType == GameType.MissionImpossible 
 			? true : gameType == GameType.FairGo ? true : false;
 
-		System.out.println("Current vertex: " + currentState);
+		//System.out.println("Current vertex: " + gameState);
 
 		//determine next position
 		NimVertex chosenPosition = null;
-		for (Vertex v: currentState.getAdjacentVertices()) {
+		for (Vertex v: gameState.getAdjacentVertices()) {
 			NimVertex thisVertex = (NimVertex)v;
-			System.out.println("Considering Vertex: " + thisVertex);
+			//System.out.println("Considering Vertex: " + thisVertex);
 
 			if (!thisVertex.isWinning() == wantToWin) {
 				chosenPosition = thisVertex;
 
-				System.out.println("Choosing vertex: " + chosenPosition);
+				//System.out.println("Choosing vertex: " + chosenPosition);
 			}
 		}
 		
-		chosenPosition = chosenPosition == null ? (NimVertex)currentState.getAdjacentVertices().getFirst() : chosenPosition;
-		System.out.println("Chosen vertex: " + chosenPosition);
-		int numSticks = currentState.getSticksRemaining() - chosenPosition.getSticksRemaining();
+		chosenPosition = chosenPosition == null ? (NimVertex)gameState.getAdjacentVertices().getFirst() : chosenPosition;
+		//System.out.println("Chosen vertex: " + chosenPosition);
+		int numSticks = gameState.getSticksRemaining() - chosenPosition.getSticksRemaining();
 		return numSticks;
 	}
 	
