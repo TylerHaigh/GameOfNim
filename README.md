@@ -9,6 +9,11 @@ This aplication aims to implement the algorithms required to successfully play t
 
 This application was developed as an assignment for COMP2230 - Introduction to Algorithmics at the University of Newcastle, 2014.
 
+Developed By:
+
+* Tyler Haigh - C3182929
+* Simon Hartcher - C3185790
+
 # To Run #
 
 To run this application:
