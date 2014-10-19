@@ -179,7 +179,8 @@ public class NimGame {
 			//Set whose turn it is
 			playersTurn = (playFirst.equalsIgnoreCase("Y")) ? true : false;
 		} else {
-			playersTurn = (gameType == GameType.MissionImpossible) ? false: true;
+			//Ask the computer if he wants to go first
+			playersTurn = (gameType == GameType.MissionImpossible) ? !computerFirstTurn(gameType) : true;
 		}
 		
 		String message = (playersTurn) ?
@@ -191,6 +192,20 @@ public class NimGame {
 		console = new Scanner(System.in);
 		
 		return playersTurn;
+	}
+
+	/**
+	 * Determines whether the computer would like to go first
+	 * @param  gameType The given game type
+	 * @return boolean	The computer's choice
+	 */
+	private boolean computerFirstTurn(GameType gameType) {
+		NimVertex currentState = 
+			(NimVertex)this.nimGraph.getVertex(initialNumMatchsticks - numSticksLeft);
+
+		LinkedList<NimVertex> labels = NimAlgorithms.labelNimGraph(currentState);	
+
+		return labels.get(1).isWinning() ? false : true;
 	}
 	
 	/**
