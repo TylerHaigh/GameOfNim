@@ -72,8 +72,14 @@ public class NimGame {
 		
 		while (gameType < 1 || gameType > 3) {
 			System.out.println("Error: Level is out of bounds");
-			System.out.print("Please select the level: ");
+			System.out.println("Please select the level:\n");
+			
 			gameType = console.nextInt();
+			
+			System.out.println("<" + gameType + ">\n");
+			
+			//User selected to quit
+			if (gameType == -1) return true;
 		}
 		
 		//Get the Game type to use when playing
