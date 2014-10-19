@@ -3,9 +3,9 @@ Game Of Nim
 
 # Abstract #
 
-NIM (The Suubtraction Game) is a game played by two players. There are a number of sticks on a table and players take turns in removing sticks. The player to remove the last stick wins.
+NIM (The Subtraction Game) is a game played by two players. There are a number of sticks on a table and players take turns in removing sticks. The player to remove the last stick wins.
 
-This aplication aims to implement the algorithms required to successfully play the Game of NIM.
+This application aims to implement the algorithms required to successfully play the Game of NIM.
 
 This application was developed as an assignment for COMP2230 - Introduction to Algorithmics at the University of Newcastle, 2014.
 
@@ -35,7 +35,7 @@ It has been assumed that users will not enter data that will create errors upon 
 Basic output is printed to the command line, or Terminal, window. To redirect output to a file: add " *> file.txt* " after the Run command as specified in **To Run** section. To view the output live when redirecting to a file, we recommend:
 
 * Downloading and using [Baretail.exe](https://www.baremetalsoft.com/baretail/ "Baretail Homepage") for Windows
-* Adding " *tail* " to the start of the Run command as specified in **To Run**
+* Adding " *tail* " to the start of the Run command as specified in **To Run** for Mac and other Unix based systems
 
 # Developers Notes #
 
